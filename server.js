@@ -14,16 +14,25 @@ const locations = {
 };
 
 app.get("/", (req, res) => {
-  let query = (req.query.q || "").toLowerCase();
+  let query = (req.query.q || "").toLowerCase().trim();
 
-  if (!query || !locations[query]) {
+  if (!query) {
     return res.send("Usage: !time LOCATION (example: !time Sweden)");
   }
 
-  let timezone = locations[query];
-  let time = moment().tz(timezone).format("HH:mm z"); // e.g., "14:35 CEST"
+  // Find the first location that starts with the query (partial match)
+  let match = Object.keys(locations).find(
+    loc => loc.toLowerCase().startsWith(query)
+  );
 
-  res.send(`Current time in ${query.charAt(0).toUpperCase() + query.slice(1)}: ${time}`);
+  if (!match) {
+    return res.send("Location not found. Check spelling or try another one!");
+  }
+
+  let timezone = locations[match];
+  let time = moment().tz(timezone).format("HH:mm z");
+
+  res.send(`Current time in ${match.charAt(0).toUpperCase() + match.slice(1)}: ${time}`);
 });
 
 app.listen(port, () => {
