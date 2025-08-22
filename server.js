@@ -1,4 +1,5 @@
 import express from "express";
+import moment from "moment-timezone";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,7 +21,9 @@ app.get("/", (req, res) => {
   }
 
   let timezone = locations[query];
-  res.send(`Current time in ${query.charAt(0).toUpperCase() + query.slice(1)}: $(time ${timezone})`);
+  let time = moment().tz(timezone).format("HH:mm z"); // e.g., "14:35 CEST"
+
+  res.send(`Current time in ${query.charAt(0).toUpperCase() + query.slice(1)}: ${time}`);
 });
 
 app.listen(port, () => {
