@@ -326,6 +326,6 @@
   "adelaide": "Australia/Adelaide",
   "canberra": "Australia/Sydney",
   "hobart": "Australia/Hobart",
-  "darwin": "Australia/Darwin"
+  "darwin": "Australia/Darwin",
   "new zealand": "Pacific/Auckland"
 }
